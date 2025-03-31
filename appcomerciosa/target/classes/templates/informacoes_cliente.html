@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minhas Informações - ComercioSA</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background-color: #0056b3;
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .user-info a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        
+        .info-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 24px;
+        }
+        
+        .info-section {
+            margin-bottom: 30px;
+        }
+        
+        .info-section h2 {
+            color: #0056b3;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .info-row {
+            display: flex;
+            margin-bottom: 15px;
+        }
+        
+        .info-label {
+            font-weight: bold;
+            width: 200px;
+            color: #555;
+        }
+        
+        .info-value {
+            flex: 1;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background-color: #bb2d3b;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">ComercioSA</div>
+            <div class="user-info">
+                <span>Bem-vindo, <span th:text="${cliente.nome}"></span></span>
+                <a href="/logout">Sair</a>
+            </div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="info-container">
+            <h1>Minhas Informações</h1>
+            
+            <div class="info-section">
+                <h2>Dados Pessoais</h2>
+                
+                <div class="info-row">
+                    <div class="info-label">Nome Completo:</div>
+                    <div class="info-value" th:text="${cliente.nome}"></div>
+                </div>
+                
+                <div class="info-row">
+                    <div class="info-label">CPF:</div>
+                    <div class="info-value" th:text="${cliente.cpf}"></div>
+                </div>
+                
+                <div class="info-row">
+                    <div class="info-label">Data de Nascimento:</div>
+                    <div class="info-value" th:text="${#dates.format(cliente.data_nascimento, 'dd/MM/yyyy')}"></div>
+                </div>
+                
+                <div class="info-row">
+                    <div class="info-label">Endereço:</div>
+                    <div class="info-value" th:text="${cliente.endereco}"></div>
+                </div>
+            </div>
+            
+            <div class="info-section" th:if="${not contatos.isEmpty()}">
+                <h2>Informações de Contato</h2>
+                
+                <div class="info-row" th:each="contato : ${contatos}">
+                    <div class="info-label" th:text="${contato.tipo == 'EMAIL' ? 'E-mail' : 'Telefone'}"></div>
+                    <div class="info-value" th:text="${contato.valor}"></div>
+                </div>
+                
+                <div class="info-row" th:if="${not #strings.isEmpty(contatos[0].observacao)}">
+                    <div class="info-label">Observações:</div>
+                    <div class="info-value" th:text="${contatos[0].observacao}"></div>
+                </div>
+            </div>
+            
+            <div class="button-group">
+                <a href="/cliente/editar" class="btn btn-primary">Editar Informações</a>
+                <form th:action="@{/cliente/deletar}" method="post" style="display: inline;">
+                    <button type="submit" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja excluir sua conta? Esta ação não pode ser desfeita.')">Excluir Minha Conta</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

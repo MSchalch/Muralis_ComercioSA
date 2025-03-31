@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ComercioSA - Soluções em Logística</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background-color: #0056b3;
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .user-info a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        
+        .user-info a:hover {
+            text-decoration: underline;
+        }
+        
+        .alert {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            text-align: center;
+        }
+        
+        .hero {
+            text-align: center;
+            padding: 80px 0;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1450101499163-c8848c66ca85?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+        }
+        
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        
+        .hero p {
+            font-size: 20px;
+            max-width: 800px;
+            margin: 0 auto 40px;
+        }
+        
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            font-size: 18px;
+        }
+        
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+            border: 2px solid #007bff;
+        }
+        
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+        
+        .btn-outline:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+        
+        footer {
+            background-color: #343a40;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 60px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">ComercioSA</div>
+            <div class="user-info" th:if="${session.clienteLogado}">
+                <span>Bem-vindo, <span th:text="${session.clienteLogado.nome}"></span></span>
+                <a href="/informacoes_cliente">Minha Conta</a>
+                <a href="/logout">Sair</a>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Mensagem de Sucesso -->
+    <div class="container">
+        <div th:if="${mensagemSucesso}" class="alert">
+            <p th:text="${mensagemSucesso}"></p>
+        </div>
+    </div>
+    
+    <script>
+        setTimeout(function() {
+            var alerta = document.querySelector('.alert');
+            if (alerta) {
+                alerta.style.display = 'none';
+            }
+        }, 5000); // Oculta a mensagem após 5 segundos
+    </script>
+    
+    <section class="hero">
+        <div class="container">
+            <h1>Soluções Logísticas Integradas</h1>
+            <p>Conectamos seu negócio ao mundo com eficiência e segurança</p>
+            
+            <div class="btn-container" th:unless="${session.clienteLogado}">
+                <a href="/login" class="btn btn-primary">Acessar Sistema</a>
+                <a href="/cadastro" class="btn btn-outline">Cadastrar Novo Cliente</a>
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 ComercioSA - Todos os direitos reservados</p>
+        </div>
+    </footer>
+</body>
+</html>

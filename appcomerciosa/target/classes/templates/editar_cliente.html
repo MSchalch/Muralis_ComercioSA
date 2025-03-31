@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Informações - ComercioSA</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background-color: #0056b3;
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .user-info a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        
+        .edit-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 24px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+        
+        input[type="text"],
+        input[type="date"],
+        input[type="password"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        
+        textarea {
+            height: 80px;
+            resize: vertical;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            text-decoration: none;
+        }
+        
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+        
+        .error {
+            color: #dc3545;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">ComercioSA</div>
+            <div class="user-info">
+                <span>Bem-vindo, <span th:text="${cliente.nome}"></span></span>
+                <a href="/logout">Sair</a>
+            </div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="edit-container">
+            <h1>Editar Minhas Informações</h1>
+            
+            <form th:action="@{/atualizar-cliente}" th:object="${cliente}" method="post">
+                <!-- Dados Pessoais -->
+                <div class="form-group">
+                    <label for="nome">Nome Completo</label>
+                    <input type="text" id="nome" th:field="*{nome}" placeholder="Digite o nome completo" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="cpf">CPF</label>
+                    <input type="text" id="cpf" th:field="*{cpf}" placeholder="Digite o CPF (somente números)" required readonly>
+                </div>
+                
+                <div class="form-group">
+                    <label for="senha">Senha</label>
+                    <input type="password" id="senha" th:field="*{senha}" placeholder="Digite sua senha" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="data_nascimento">Data de Nascimento</label>
+                    <input type="date" id="data_nascimento" name="data_nascimento" th:value="${dataNascimentoFormatada}" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="endereco">Endereço</label>
+                    <input type="text" id="endereco" th:field="*{endereco}" placeholder="Digite o endereço completo" required>
+                </div>
+                
+                <!-- Contato -->
+                <div class="form-group" th:if="${not contatos.empty}">
+                    <label for="tipoContato">Tipo de Contato</label>
+                    <select id="tipoContato" name="tipoContato" required>
+                        <option value="EMAIL" th:selected="${contatos[0].tipo == 'EMAIL'}">E-mail</option>
+                        <option value="TELEFONE" th:selected="${contatos[0].tipo == 'TELEFONE'}">Telefone</option>
+                    </select>
+                </div>
+                
+                <div class="form-group" th:if="${not contatos.empty}">
+                    <label for="valorContato">Contato</label>
+                    <input type="text" id="valorContato" name="valorContato" 
+                           th:value="${contatos[0].valor}" placeholder="Digite o contato" required>
+                </div>
+                
+                <div class="form-group" th:if="${not contatos.empty}">
+                    <label for="observacaoContato">Observações</label>
+                    <textarea id="observacaoContato" name="observacaoContato" 
+                              placeholder="Digite observações adicionais" th:text="${contatos[0].observacao}"></textarea>
+                </div>
+                
+                <div class="button-group">
+                    <a href="/informacoes-cliente" class="btn btn-secondary">Cancelar</a>
+                    <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

@@ -19,9 +19,21 @@ O projeto apresenta as seguintes funcionalidades:
 - Página principal, onde o cliente pode fazer **login** ou **se cadastrar**.
 - Os dados do cliente são armazenados em um banco de dados **MySQL**.
 - Implementação das operações de **CRUD**:
-  - 🔍 **Visualização** dos dados do cliente
-  - ✏️ **Atualização** dos dados do cliente
-  - ❌ **Exclusão** dos dados do cliente
+📝 Cadastro de Clientes: Registro de novos clientes no sistema.
+
+🔑 Login do Cliente: Autenticação segura para acesso ao sistema.
+
+✅ Validação de Dados: Verificação de CPF e datas inseridas.
+
+🔄 Verificação de Duplicidade de CPF: Garantia de unicidade dos registros.
+
+🔗 Relacionamento Cliente-Contato: Associação entre as tabelas de clientes e contatos.
+
+🔍 Visualização dos Dados: Consulta detalhada das informações do cliente.
+
+✏️ Atualização dos Dados: Edição e atualização dos registros cadastrados.
+
+❌ Exclusão de Clientes: Remoção de registros do sistema.
 
 Atualmente, as funcionalidades de visualização, atualização e exclusão de clientes foram implementadas, porém ainda apresentam alguns erros que precisam ser corrigidos.
 
